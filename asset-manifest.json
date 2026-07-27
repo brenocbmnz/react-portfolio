@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/react-portfolio/static/css/main.f3612727.css",
-    "main.js": "/react-portfolio/static/js/main.0a10e50a.js",
-    "static/media/hero-dark.jpg": "/react-portfolio/static/media/hero-dark.37f2556d620821979e99.jpg",
-    "static/media/hero-light.jpg": "/react-portfolio/static/media/hero-light.78b77836d8aee4d7d3cb.jpg",
+    "main.js": "/react-portfolio/static/js/main.6564321f.js",
+    "static/media/hero-light-final.jpg": "/react-portfolio/static/media/hero-light-final.8800f0292c8db461fd6b.jpg",
+    "static/media/hero-dark-final.jpg": "/react-portfolio/static/media/hero-dark-final.77508f18fa13aeed3e5c.jpg",
     "service-worker.js": "/react-portfolio/service-worker.js",
     "static/media/defaultNavLogo.svg": "/react-portfolio/static/media/defaultNavLogo.643191e79313069eb07cd443708423e5.svg",
     "static/media/GH.svg": "/react-portfolio/static/media/GH.b9e9a9aa6f05e9dfe5dcb8991bda3e4d.svg",
     "static/media/logo.svg": "/react-portfolio/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/react-portfolio/index.html",
     "main.f3612727.css.map": "/react-portfolio/static/css/main.f3612727.css.map",
-    "main.0a10e50a.js.map": "/react-portfolio/static/js/main.0a10e50a.js.map"
+    "main.6564321f.js.map": "/react-portfolio/static/js/main.6564321f.js.map"
   },
   "entrypoints": [
     "static/css/main.f3612727.css",
-    "static/js/main.0a10e50a.js"
+    "static/js/main.6564321f.js"
   ]
 }
