@@ -92,6 +92,7 @@ const NavBar = ({ Logo = defaultLogo, callBack, closeDelay = 125 }) => {
                       <Nav.Item key={el.id}>
                         <ScrollLink
                           to={el.to}
+                          href={`#${el.to}`}
                           spy={true}
                           activeClass="active"
                           className="nav-link"

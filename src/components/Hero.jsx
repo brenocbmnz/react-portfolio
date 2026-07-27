@@ -123,7 +123,7 @@ const Hero = ({ name }) => {
         </Row>
         <Row className="align-items-end down-container">
           <Col className="m-4 text-center">
-            <Link to={"About"} className="link-icons">
+            <Link to={"About"} href="#About" className="link-icons">
               <Icon icon="fa6-solid:circle-chevron-down" />
             </Link>
           </Col>
