@@ -6,7 +6,7 @@ import { useGetUsersQuery, useGetSocialsQuery } from "../app/apiSlice";
 // Icons
 import { Icon } from "@iconify/react";
 // Config
-import { Blog } from "../config";
+import { Blog, linkedin } from "../config";
 
 // #region styled-components
 const StyledSocialLinks = styled.div`
@@ -38,6 +38,15 @@ const SocialLinks = () => {
       >
         <Icon icon="icomoon-free:github" />
       </a>
+      {linkedin && (
+        <a
+          href={linkedin}
+          aria-label="Check out my LinkedIn profile."
+          className="link-icons"
+        >
+          <Icon icon="fa-brands:linkedin" />
+        </a>
+      )}
       {isSuccess &&
         socialsData.map((element, index) => {
           let icon;

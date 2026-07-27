@@ -17,7 +17,7 @@ export const apiSlice = createApi({
     }),
     // https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-a-user
     getProjects: builder.query({
-      query: () => `/users/${githubUsername}/repos`,
+      query: () => `/users/${githubUsername}/repos?per_page=100`,
     }),
   }),
 });

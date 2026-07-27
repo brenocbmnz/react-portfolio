@@ -26,6 +26,9 @@ export const navLogo = null;
 */
 export const Blog = null;
 
+// LinkedIn URL
+export const linkedin = "https://www.linkedin.com/in/breno-cardoso-bezerra-de-menezes-767a88161/";
+
 // Hero images (imported above - lines 8-9)
 export { HeroLight as Light };
 export { HeroDark as Dark };
@@ -54,33 +57,33 @@ export const skillData = [
   },
   {
     id: 3,
+    skill: <Icon icon="fa6-brands:php" className="display-4" />,
+    name: "PHP",
+  },
+  {
+    id: 4,
+    skill: <Icon icon="simple-icons:laravel" className="display-4" />,
+    name: "Laravel",
+  },
+  {
+    id: 5,
     skill: <Icon icon="fa6-brands:js" className="display-4" />,
     name: "JavaScript",
   },
   {
-    id: 4,
+    id: 6,
     skill: <Icon icon="ri:bootstrap-fill" className="display-4" />,
     name: "BootStrap",
   },
   {
-    id: 5,
+    id: 7,
     skill: <Icon icon="mdi:react" className="display-4" />,
     name: "React",
   },
   {
-    id: 6,
-    skill: <Icon icon="file-icons:styledcomponents" className="display-4" />,
-    name: "Styled Components",
-  },
-  {
-    id: 7,
-    skill: <Icon icon="akar-icons:redux-fill" className="display-4" />,
-    name: "Redux",
-  },
-  {
     id: 8,
-    skill: <Icon icon="bi:git" className="display-4" />,
-    name: "Git",
+    skill: <Icon icon="mdi:docker" className="display-4" />,
+    name: "Docker",
   },
   {
     id: 9,
@@ -96,7 +99,23 @@ export const resume = null;
  ************************************************************** 
   List the repo names (string - "your-repo-name") you want to include (they will be sorted alphabetically). If empty, only the first 3 will be included.
 */
-export const filteredProjects = ["example-1", "example-2", "example-3"];
+export const filteredProjects = ["safer-app", "dnd-gen", "ecommerce-integrador"];
+
+// Custom descriptions for project cards (overrides the GitHub repo description)
+export const projectDescriptions = [
+  {
+    name: "safer-app",
+    description: "App to register and map safe spaces for the LGBTQIAPN+ community",
+  },
+  {
+    name: "dnd-gen",
+    description: "DnD Character Generation using AI for references and help with coming up with a character",
+  },
+  {
+    name: "ecommerce-integrador",
+    description: "Fully functional e-commerce platform",
+  },
+];
 
 // Replace the defualt GitHub image for matching repos below (images imported above - lines 7-8)
 export const projectCardImages = [

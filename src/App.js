@@ -41,9 +41,15 @@ const propTypes = {
       image: PropTypes.node.isRequired,
     })
   ),
+  projectDescriptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    })
+  ),
 };
 
-const App = ({ projectCardImages = [], filteredProjects = [] }) => {
+const App = ({ projectCardImages = [], filteredProjects = [], projectDescriptions = [] }) => {
   const theme = useSelector(selectMode);
   const projects = useSelector(selectProjects);
   const dispatch = useDispatch();
@@ -79,6 +85,18 @@ const App = ({ projectCardImages = [], filteredProjects = [] }) => {
           tempData.forEach((ele) => {
             if (element.name.toLowerCase() === ele.name.toLowerCase()) {
               ele.image = element.image;
+            }
+          });
+        });
+      }
+      if (
+        projectDescriptions !== (undefined && null) &&
+        projectDescriptions.length !== 0
+      ) {
+        projectDescriptions.forEach((element) => {
+          tempData.forEach((ele) => {
+            if (element.name.toLowerCase() === ele.name.toLowerCase()) {
+              ele.description = element.description;
             }
           });
         });
