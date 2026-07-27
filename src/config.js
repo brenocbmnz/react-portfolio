@@ -38,7 +38,7 @@ export { HeroDark as Dark };
   Add a second paragraph for the about me section.
 */
 export const moreInfo =
-  "I enjoy learning about technology and helping others use it to improve their lives! My passion is allying technology with human rights and inclusion. I built this portfolio with React, React Bootstrap, Redux, and the GitHub REST API.";
+  "This is a WIP";
 
 /* Skills
  ************************************************************** 

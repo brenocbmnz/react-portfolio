@@ -28,6 +28,18 @@ const propTypes = {
 };
 
 const AboutMe = ({ avatar_url, bio, moreInfo }) => {
+  const avatarSrc = React.useMemo(() => {
+    if (!avatar_url) return avatar_url;
+
+    try {
+      const url = new URL(avatar_url);
+      url.searchParams.set("s", "200");
+      return url.toString();
+    } catch {
+      return avatar_url;
+    }
+  }, [avatar_url]);
+
   return (
     <Element name={"About"} id="about">
       <StyledAboutMe className="section">
@@ -44,7 +56,7 @@ const AboutMe = ({ avatar_url, bio, moreInfo }) => {
             </Col>
             <Col className="d-none d-md-block text-center">
               <img
-                src={avatar_url}
+                src={avatarSrc}
                 alt="GitHub Avatar"
                 loading="lazy"
                 className="mx-auto rounded-circle border border-primary-subtle"
