@@ -15,7 +15,6 @@ const StyledSocialLinks = styled.div`
 
   a {
     align-items: center;
-    border: 1px solid currentColor;
     display: inline-flex;
     height: 2.6rem;
     justify-content: center;

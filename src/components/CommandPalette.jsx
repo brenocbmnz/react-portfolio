@@ -1,7 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { keyframes } from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+
+const blinkCursor = keyframes`
+  0%, 45% { opacity: 1; }
+  46%, 100% { opacity: 0; }
+`;
 
 const Terminal = styled.div`
   .terminal-trigger {
@@ -17,8 +23,29 @@ const Terminal = styled.div`
     justify-content: center;
     position: fixed;
     right: 1.25rem;
+    text-shadow: 0 0 0 transparent;
+    transition: background 220ms ease, box-shadow 220ms ease, color 220ms ease,
+      transform 220ms ease, text-shadow 220ms ease;
     width: 3rem;
     z-index: 900;
+  }
+
+  .terminal-trigger:hover,
+  .terminal-trigger:focus-visible {
+    background: color-mix(in srgb, var(--ink) 88%, var(--cyan));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--cyan) 35%, transparent),
+      0 0 20px color-mix(in srgb, var(--cyan) 32%, transparent);
+    text-shadow: 0 0 8px currentColor;
+    transform: translateY(-2px);
+  }
+
+  .terminal-cursor {
+    display: inline-block;
+  }
+
+  .terminal-trigger:hover .terminal-cursor,
+  .terminal-trigger:focus-visible .terminal-cursor {
+    animation: ${blinkCursor} 720ms steps(1, end) infinite;
   }
 
   .terminal-overlay {
@@ -104,6 +131,13 @@ const Terminal = styled.div`
     font-family: inherit;
     min-width: 0;
     outline: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-trigger:hover .terminal-cursor,
+    .terminal-trigger:focus-visible .terminal-cursor {
+      animation: none;
+    }
   }
 `;
 
@@ -226,7 +260,8 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
         aria-label="Open command palette"
         onClick={() => setIsOpen(true)}
       >
-        &gt;_
+        <span aria-hidden="true">&gt;</span>
+        <span className="terminal-cursor" aria-hidden="true">_</span>
       </button>
       {isOpen && (
         <div

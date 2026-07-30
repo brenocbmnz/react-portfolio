@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Element } from "react-scroll";
 import { Container } from "react-bootstrap";
 import ContactForm from "./ContactForm";
-import SocialLinks from "./SocialLinks";
 import useReveal from "../hooks/useReveal";
 
 // #region styled-components
@@ -33,8 +32,6 @@ const StyledSection = styled.section`
     max-width: 500px;
     opacity: 0.72;
   }
-
-  .contact-copy .link-icons { color: #101414; }
 
   .reveal {
     opacity: 0;
@@ -69,7 +66,6 @@ const Contact = () => {
                 Have a project, an opportunity, or a technical problem worth discussing?
                 Send me the context and I’ll get back to you.
               </p>
-              <SocialLinks />
             </div>
             <ContactForm />
           </div>

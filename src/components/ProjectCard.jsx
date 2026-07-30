@@ -23,7 +23,7 @@ const StyledCard = styled.div`
 
   .project-card {
     background: var(--cyan);
-    border: 1px solid var(--ink);
+    border: 1px solid #101414;
     color: #101414;
     display: flex;
     flex-direction: column;
@@ -39,8 +39,8 @@ const StyledCard = styled.div`
   .project-card::after {
     background: radial-gradient(
       260px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
-      rgba(255, 255, 255, 0.46),
-      transparent 64%
+      rgba(255, 255, 255, 0.2),
+      transparent 70%
     );
     content: "";
     inset: 0;
