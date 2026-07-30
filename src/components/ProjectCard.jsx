@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 // State
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Icons
 import { Icon } from "@iconify/react";
 // Images
@@ -184,6 +185,7 @@ const propTypes = {
 };
 
 const ProjectCard = ({ category, demo, description, index = 0, name, stack = [], url }) => {
+  const { t } = useTranslation();
   const { ref, isVisible } = useReveal({ threshold: 0.1 });
 
   const handlePointerMove = (event) => {
@@ -215,18 +217,18 @@ const ProjectCard = ({ category, demo, description, index = 0, name, stack = [],
       >
         <div className="project-top">
           <h3>{name}</h3>
-          <span className="project-category">{category || "Open Source"}</span>
+          <span className="project-category">{category || t("projects.openSource")}</span>
         </div>
         {stack.length > 0 && <div className="project-stack">{stack.join(" · ")}</div>}
         <p>{description}</p>
         <div className="project-links">
           {demo && (
             <a href={demo} target="_blank" rel="noreferrer">
-              Live demo <Icon icon="lucide:arrow-up-right" />
+              {t("projects.liveDemo")} <Icon icon="lucide:arrow-up-right" />
             </a>
           )}
           <a href={url} target="_blank" rel="noreferrer">
-            GitHub <Icon icon="lucide:github" />
+            {t("projects.github")} <Icon icon="lucide:github" />
           </a>
         </div>
       </article>

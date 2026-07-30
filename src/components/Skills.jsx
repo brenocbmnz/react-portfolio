@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 // State
 // Components
 import { Element } from "react-scroll";
@@ -7,6 +8,7 @@ import { Container } from "react-bootstrap";
 // Config
 import { skillData, skillGroups, resume } from "../config";
 import useReveal from "../hooks/useReveal";
+import StableTranslation from "./StableTranslation";
 
 const StyledSkills = styled.section`
   background: var(--yellow);
@@ -26,6 +28,7 @@ const StyledSkills = styled.section`
   }
 
   .skills-layout {
+    align-items: start;
     display: grid;
     gap: 3rem;
     grid-template-columns: 1.15fr 0.85fr;
@@ -81,11 +84,11 @@ const StyledSkills = styled.section`
     display: grid;
     gap: 1px;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, minmax(5.8rem, 1fr));
   }
 
   .skill-tile {
     align-items: center;
-    aspect-ratio: 1;
     background: #101414;
     color: #f4f1e8;
     display: flex;
@@ -94,6 +97,7 @@ const StyledSkills = styled.section`
     font-size: 0.65rem;
     gap: 0.65rem;
     justify-content: center;
+    min-height: 5.8rem;
     min-width: 0;
     text-align: center;
     text-transform: uppercase;
@@ -163,6 +167,9 @@ const StyledSkills = styled.section`
   .reveal.visible .skill-tile:nth-child(7) { transition-delay: 390ms; }
   .reveal.visible .skill-tile:nth-child(8) { transition-delay: 455ms; }
   .reveal.visible .skill-tile:nth-child(9) { transition-delay: 520ms; }
+  .reveal.visible .skill-tile:nth-child(10) { transition-delay: 585ms; }
+  .reveal.visible .skill-tile:nth-child(11) { transition-delay: 650ms; }
+  .reveal.visible .skill-tile:nth-child(12) { transition-delay: 715ms; }
 
   .reveal.visible .skill-group:hover {
     transform: translateX(5px);
@@ -186,6 +193,7 @@ const StyledSkills = styled.section`
 
 // #region component
 const Skills = () => {
+  const { t } = useTranslation();
   const { ref, isVisible } = useReveal();
 
   return (
@@ -193,20 +201,34 @@ const Skills = () => {
       <StyledSkills className="section" ref={ref}>
         <Container className={`reveal ${isVisible ? "visible" : ""}`}>
           <div className="skills-head">
-            <span className="eyebrow">{"/* stack I use */"}</span>
-            <span className="eyebrow">03 / CAPABILITIES</span>
+            <span className="eyebrow">{t("skills.eyebrow")}</span>
+            <span className="eyebrow">{t("skills.section")}</span>
           </div>
-          <h2 className="section-heading">Tools behind the work.</h2>
-          <p className="skills-intro">
-            Technologies I use to design, build, version, and deliver web applications.
-          </p>
+          <StableTranslation
+            as="h2"
+            className="section-heading"
+            translationKey="skills.heading"
+          />
+          <StableTranslation
+            as="p"
+            className="skills-intro"
+            translationKey="skills.introduction"
+          />
           <div className="skills-layout">
             <div className="skill-groups">
               {skillGroups.map((group) => (
                 <div className="skill-group" key={group.id}>
-                  <h3>{group.name}</h3>
+                  <StableTranslation
+                    as="h3"
+                    translationKey={`skills.groups.${group.id}.name`}
+                    values={{ defaultValue: group.name }}
+                  />
                   <div>
-                    <p>{group.description}</p>
+                    <StableTranslation
+                      as="p"
+                      translationKey={`skills.groups.${group.id}.description`}
+                      values={{ defaultValue: group.description }}
+                    />
                     <div className="skill-names">{group.skills.join(" · ")}</div>
                   </div>
                 </div>
@@ -223,7 +245,7 @@ const Skills = () => {
           </div>
           {resume && (
             <a className="resume-link" href={resume}>
-              View résumé ↗
+              {t("skills.resume")}
             </a>
           )}
         </Container>

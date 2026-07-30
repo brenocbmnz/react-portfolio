@@ -30,12 +30,14 @@ export const Blog = null;
 export const linkedin = "https://www.linkedin.com/in/breno-cardoso-bezerra-de-menezes-767a88161/";
 
 export const portfolioContent = {
-  eyebrow: "FULL STACK DEVELOPER · WEB APPLICATIONS · OPEN SOURCE",
+  eyebrow: "FULL STACK DEVELOPER  HUMAN-CENTERED TECHNOLOGY",
   headline: "I build useful products for the web.",
   introduction:
-    "Full-stack developer working across thoughtful interfaces, reliable APIs, and the systems that connect them.",
+    "Full-stack developer building thoughtful, accessible web products, with a particular interest in games and inclusive technologies.",
+  bio:
+    "I’m a full-stack developer interested in using technology to help people and strengthen the communities around them.",
   about:
-    "I enjoy turning practical problems into maintainable web products. My work spans PHP and Laravel backends, JavaScript and React interfaces, and the tooling needed to ship them with confidence.",
+    "Human rights and social impact shape the problems I want to work on. I enjoy turning real needs into accessible, maintainable products, from PHP and Laravel backends to JavaScript and React interfaces. Sometimes I dabble in Python and C#.",
 };
 
 // Hero images (imported above - lines 8-9)
@@ -98,6 +100,21 @@ export const skillData = [
     skill: <Icon icon="fa6-brands:square-github" className="display-4" />,
     name: "GitHub",
   },
+  {
+    id: 10,
+    skill: <Icon icon="mdi:language-python" className="display-4" />,
+    name: "Python",
+  },
+  {
+    id: 11,
+    skill: <Icon icon="devicon-plain:csharp" className="display-4" />,
+    name: "C#",
+  },
+  {
+    id: 12,
+    skill: <Icon icon="fa6-brands:git-alt" className="display-4" />,
+    name: "Git",
+  },
 ];
 
 export const skillGroups = [
@@ -117,7 +134,13 @@ export const skillGroups = [
     id: "workflow",
     name: "Tools & workflow",
     description: "Practical tooling for versioning, delivery, and repeatable environments.",
-    skills: ["Docker", "GitHub"],
+    skills: ["Docker", "Git", "GitHub"],
+  },
+  {
+    id: "exploring",
+    name: "Also exploring",
+    description: "Languages I occasionally use for experiments and side projects.",
+    skills: ["Python", "C#"],
   },
 ];
 
@@ -137,7 +160,7 @@ export const projectMetadata = [
     stack: ["Laravel", "JavaScript", "Maps"],
     featuredOrder: 1,
     description:
-      "A community platform for registering and discovering LGBTQIAPN+ friendly spaces.",
+      "A community platform that helps LGBTQIAPN+ people register and discover welcoming spaces.",
   },
   {
     name: "dnd-gen",
@@ -145,7 +168,7 @@ export const projectMetadata = [
     stack: ["React", "AI", "JavaScript"],
     featuredOrder: 2,
     description:
-      "An AI-assisted character generator for finding references and shaping tabletop RPG ideas.",
+      "An AI-assisted tool for exploring character references and shaping tabletop RPG ideas.",
   },
   {
     name: "ecommerce-integrador",
@@ -161,15 +184,15 @@ export const projectMetadata = [
 export const projectDescriptions = [
   {
     name: "safer-app",
-    description: "App to register and map safe spaces for the LGBTQIAPN+ community",
+    description: "A community platform that helps LGBTQIAPN+ people register and discover welcoming spaces.",
   },
   {
     name: "dnd-gen",
-    description: "DnD Character Generation using AI for references and help with coming up with a character",
+    description: "An AI-assisted tool for exploring character references and shaping tabletop RPG ideas.",
   },
   {
     name: "ecommerce-integrador",
-    description: "Fully functional e-commerce platform",
+    description: "A complete e-commerce platform covering the core browsing and purchasing workflow.",
   },
 ];
 

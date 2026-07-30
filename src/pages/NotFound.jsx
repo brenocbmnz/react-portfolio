@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 // Styles
 import styled, { keyframes } from "styled-components";
 // Components
@@ -47,19 +48,20 @@ const StyledNotFound = styled.main`
 
 // #region component
 const NotFound = () => {
+  const { t, i18n } = useTranslation();
   React.useEffect(() => {
-    updateTitle("Not found...");
-  }, []);
+    updateTitle(t("notFound.title"));
+  }, [i18n.resolvedLanguage, t]);
 
   return (
     <>
       <StyledNotFound>
         <Container className="d-flex justify-content-center">
           <span>4</span>
-          <img src={Logo} alt="React Logo" className="logo-img" />
+          <img src={Logo} alt={t("notFound.logoAlt")} className="logo-img" />
           <span>4</span>
         </Container>
-        <p className="text-center">Sorry, page not found...</p>
+        <p className="text-center">{t("notFound.message")}</p>
       </StyledNotFound>
     </>
   );

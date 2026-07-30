@@ -18,7 +18,8 @@ Variables
   --surface: #fffdf7;
   --border: 1px solid var(--line);
   --transition: 180ms ease;
-  --nav-height: 68px;
+  --theme-transition: 480ms cubic-bezier(0.2, 0.75, 0.2, 1);
+  --nav-height: 60px;
   --min-footer-height: 11vh;
   --card-height: 29rem;
   --page-width: 1180px;
@@ -51,6 +52,16 @@ body {
   color: var(--ink);
   font-family: var(--body-font);
   letter-spacing: 0;
+}
+
+body,
+header,
+section,
+footer,
+nav,
+.navbar {
+  transition: background-color var(--theme-transition),
+    border-color var(--theme-transition), color var(--theme-transition);
 }
 
 main {

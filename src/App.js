@@ -11,6 +11,7 @@ import {
 } from "./app/projectsSlice";
 import { useGetUsersQuery, useGetProjectsQuery } from "./app/apiSlice";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Router
 import { HashRouter, Routes, Route } from "react-router-dom";
 // Pages
@@ -64,6 +65,7 @@ const App = ({
   projectDescriptions = [],
   projectMetadata = [],
 }) => {
+  const { t } = useTranslation();
   const theme = useSelector(selectMode);
   const projects = useSelector(selectProjects);
   const dispatch = useDispatch();
@@ -187,8 +189,8 @@ const App = ({
       <Container className="d-flex vh-100 align-items-center justify-content-center">
         <h2>
           {error.status !== "FETCH_ERROR"
-            ? `${error.status}: ${error.data.message} - check githubUsername in src/config.js`
-            : `${error.status} - check URLs in  src/app/apiSlice.js`}
+            ? `${error.status}: ${error.data.message} - ${t("errors.userRequest")}`
+            : `${error.status} - ${t("errors.fetch")}`}
         </h2>
       </Container>
     );

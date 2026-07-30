@@ -4,30 +4,32 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectMode } from "../app/appSlice";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Router
 import { Link, useLocation } from "react-router-dom";
 // Components
 import { Link as ScrollLink } from "react-scroll";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import ThemeToggle from "./ThemeToggle";
+import LanguageToggle from "./LanguageToggle";
 import { githubUsername } from "../config";
 
 // #region constants
 const navLinks = {
   routes: [
-    { id: "1R", name: "Home", route: "/" },
+    { id: "1R", nameKey: "nav.home", route: "/" },
     {
       id: "2R",
-      name: "All Projects",
+      nameKey: "nav.allProjects",
       href: `https://github.com/${githubUsername}?tab=repositories`,
     },
   ],
   to: [
-    { id: "1T", name: "Home", to: "Home" },
-    { id: "2T", name: "About Me", to: "About" },
-    { id: "3T", name: "Skills", to: "Skills" },
-    { id: "4T", name: "Projects", to: "Projects" },
-    { id: "5T", name: "Contact", to: "Contact" },
+    { id: "1T", nameKey: "nav.home", to: "Home" },
+    { id: "2T", nameKey: "nav.about", to: "About" },
+    { id: "3T", nameKey: "nav.skills", to: "Skills" },
+    { id: "4T", nameKey: "nav.projects", to: "Projects" },
+    { id: "5T", nameKey: "nav.contact", to: "Contact" },
   ],
 };
 // #endregion
@@ -69,11 +71,28 @@ const StyledDiv = styled.div`
 
   .nav-link {
     color: var(--muted) !important;
+    display: block;
     font-family: var(--mono-font);
     font-size: 0.72rem;
     letter-spacing: 0.08em;
-    padding: 1.55rem 0.8rem !important;
+    padding: 1.3rem 0.8rem !important;
+    text-align: center;
     text-transform: uppercase;
+  }
+
+  @media (min-width: 1200px) {
+    .home-nav {
+      column-gap: 0.2rem;
+      display: grid;
+      grid-template-columns: repeat(5, 7rem);
+    }
+
+    .home-nav .nav-link {
+      padding-left: 0.4rem !important;
+      padding-right: 0.4rem !important;
+      white-space: nowrap;
+      width: 100%;
+    }
   }
 
   .nav-link:hover,
@@ -83,13 +102,6 @@ const StyledDiv = styled.div`
 
   .nav-link.active {
     box-shadow: inset 0 -3px var(--cyan);
-  }
-
-  .command-hint {
-    color: var(--muted);
-    font-family: var(--mono-font);
-    font-size: 0.68rem;
-    margin-right: 0.75rem;
   }
 
   .navbar-toggler {
@@ -104,11 +116,10 @@ const StyledDiv = styled.div`
 
     .nav-link {
       padding: 0.85rem 0 !important;
+      text-align: left;
+      width: auto;
     }
 
-    .command-hint {
-      display: none;
-    }
   }
 `;
 // #endregion
@@ -121,6 +132,7 @@ const propTypes = {
 };
 
 const NavBar = ({ callBack, closeDelay = 125 }) => {
+  const { t } = useTranslation();
   const theme = useSelector(selectMode);
   const [isExpanded, setisExpanded] = React.useState(false);
   const { pathname } = useLocation();
@@ -144,10 +156,14 @@ const NavBar = ({ callBack, closeDelay = 125 }) => {
           </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
+            aria-label={t("nav.toggle")}
             onClick={() => setisExpanded(!isExpanded)}
           />
           <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav navbarScroll className="me-auto">
+            <Nav
+              navbarScroll
+              className={`${pathname === "/" ? "home-nav" : "route-nav"} me-auto`}
+            >
               {pathname === "/"
                 ? navLinks.to.map((el) => {
                     return (
@@ -164,7 +180,7 @@ const NavBar = ({ callBack, closeDelay = 125 }) => {
                             }, closeDelay);
                           }}
                         >
-                          {el.name}
+                          {t(el.nameKey)}
                         </ScrollLink>
                       </Nav.Item>
                     );
@@ -184,7 +200,7 @@ const NavBar = ({ callBack, closeDelay = 125 }) => {
                               }, closeDelay);
                             }}
                           >
-                            {el.name}
+                            {t(el.nameKey)}
                           </a>
                         ) : (
                           <Link
@@ -200,15 +216,15 @@ const NavBar = ({ callBack, closeDelay = 125 }) => {
                               }, closeDelay);
                             }}
                           >
-                            {el.name}
+                            {t(el.nameKey)}
                           </Link>
                         )}
                       </Nav.Item>
                     );
                   })}
             </Nav>
-            <Nav className="align-items-xl-center pb-3 pb-xl-0">
-              <span className="command-hint">PRESS / FOR COMMANDS</span>
+            <Nav className="align-items-xl-center gap-2 pb-3 pb-xl-0">
+              <LanguageToggle closeDelay={closeDelay} setExpanded={setisExpanded} />
               <ThemeToggle
                 closeDelay={closeDelay}
                 setExpanded={setisExpanded}

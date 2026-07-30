@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const blinkCursor = keyframes`
   0%, 45% { opacity: 1; }
@@ -142,10 +143,10 @@ const Terminal = styled.div`
 `;
 
 const sectionIds = {
-  about: "about",
-  projects: "projects",
-  skills: "skills",
-  contact: "contact",
+  about: { id: "about", label: "nav.about" },
+  projects: { id: "projects", label: "nav.projects" },
+  skills: { id: "skills", label: "nav.skills" },
+  contact: { id: "contact", label: "nav.contact" },
 };
 
 const propTypes = {
@@ -155,9 +156,10 @@ const propTypes = {
 };
 
 const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = React.useState(false);
   const [entries, setEntries] = React.useState([
-    { command: "", result: 'Type "help" to see available commands.' },
+    { command: "", result: t("terminal.initial") },
   ]);
   const inputRef = React.useRef(null);
   const triggerRef = React.useRef(null);
@@ -172,7 +174,7 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
   const goToSection = React.useCallback(
     (section) => {
       const scroll = () =>
-        document.getElementById(section)?.scrollIntoView({ behavior: "smooth" });
+        document.getElementById(section.id)?.scrollIntoView({ behavior: "smooth" });
       if (location.pathname !== "/") {
         navigate("/");
         window.setTimeout(scroll, 100);
@@ -180,10 +182,14 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
         scroll();
       }
       close();
-      return `Navigating to ${section}...`;
+      return t("terminal.navigating", { section: t(section.label) });
     },
-    [close, location.pathname, navigate]
+    [close, location.pathname, navigate, t]
   );
+
+  React.useEffect(() => {
+    setEntries([{ command: "", result: t("terminal.initial") }]);
+  }, [i18n.resolvedLanguage, t]);
 
   React.useEffect(() => {
     const onKeyDown = (event) => {
@@ -209,36 +215,51 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
     const command = rawCommand.trim().toLowerCase();
     if (!command) return;
 
+    const help = () => t("terminal.help");
+    const about = () => goToSection(sectionIds.about);
+    const projects = () => goToSection(sectionIds.projects);
+    const skills = () => goToSection(sectionIds.skills);
+    const contact = () => goToSection(sectionIds.contact);
+    const toggleTheme = () => {
+      onToggleTheme();
+      return t("terminal.themeToggled");
+    };
+    const clear = () => {
+      setEntries([]);
+      return null;
+    };
     const commands = {
-      help: () =>
-        "about · projects · skills · contact · github · linkedin · theme · clear",
-      about: () => goToSection(sectionIds.about),
-      projects: () => goToSection(sectionIds.projects),
-      skills: () => goToSection(sectionIds.skills),
-      contact: () => goToSection(sectionIds.contact),
+      help,
+      ajuda: help,
+      about,
+      sobre: about,
+      projects,
+      projetos: projects,
+      skills,
+      competencias: skills,
+      "competências": skills,
+      habilidades: skills,
+      contact,
+      contato: contact,
       github: () => {
         if (githubUrl) window.open(githubUrl, "_blank", "noopener,noreferrer");
-        return "Opening GitHub...";
+        return t("terminal.openingGithub");
       },
       linkedin: () => {
         if (linkedinUrl)
           window.open(linkedinUrl, "_blank", "noopener,noreferrer");
-        return "Opening LinkedIn...";
+        return t("terminal.openingLinkedin");
       },
-      theme: () => {
-        onToggleTheme();
-        return "Theme toggled.";
-      },
-      clear: () => {
-        setEntries([]);
-        return null;
-      },
+      theme: toggleTheme,
+      tema: toggleTheme,
+      clear,
+      limpar: clear,
     };
 
     const result = commands[command]
       ? commands[command]()
-      : `Command not found: ${command}. Type "help".`;
-    if (command !== "clear") {
+      : t("terminal.notFound", { command });
+    if (!(["clear", "limpar"].includes(command))) {
       setEntries((current) => [...current, { command, result }]);
     }
   };
@@ -256,8 +277,8 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
         ref={triggerRef}
         className="terminal-trigger"
         type="button"
-        title="Open command palette (press /)"
-        aria-label="Open command palette"
+        title={t("terminal.open")}
+        aria-label={t("terminal.open")}
         onClick={() => setIsOpen(true)}
       >
         <span aria-hidden="true">&gt;</span>
@@ -281,7 +302,7 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
               <button
                 type="button"
                 className="terminal-close"
-                aria-label="Close command palette"
+                aria-label={t("terminal.close")}
                 onClick={close}
               >
                 ×
@@ -302,9 +323,9 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
               <input
                 ref={inputRef}
                 name="command"
-                aria-label="Terminal command"
+                aria-label={t("terminal.command")}
                 autoComplete="off"
-                placeholder='type "help"...'
+                placeholder={t("terminal.placeholder")}
               />
               <span className="terminal-hint">ESC</span>
             </form>

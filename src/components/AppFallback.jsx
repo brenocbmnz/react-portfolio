@@ -1,6 +1,7 @@
 import React from "react";
 // State
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Components
 import { Container } from "react-bootstrap";
 // Utils
@@ -10,6 +11,7 @@ import { getPreferredTheme, setTheme } from "../utils";
 const propTypes = { error: PropTypes.object.isRequired };
 
 const AppFallback = ({ error }) => {
+  const { t } = useTranslation();
   React.useEffect(() => {
     setTheme(getPreferredTheme());
   }, []);
@@ -17,7 +19,7 @@ const AppFallback = ({ error }) => {
   return (
     <main className="d-flex flex-column vh-100 justify-content-center align-items-center">
       <Container className="text-center">
-        <p>Something went wrong:</p>
+        <p>{t("errors.app")}</p>
         <pre
           className="text-wrap"
           style={{ color: "red" }}

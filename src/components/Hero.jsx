@@ -3,16 +3,16 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 // State
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Icons
 import { Icon } from "@iconify/react";
-// Config
-import { portfolioContent } from "../config";
 // Images
 import GlassesLogo from "../images/glasses-logo.svg";
 // Components
 import { Link } from "react-scroll";
 import { Container } from "react-bootstrap";
 import SocialLinks from "./SocialLinks";
+import StableTranslation from "./StableTranslation";
 
 // #region styled-components
 const enter = keyframes`
@@ -47,8 +47,8 @@ const StyledHero = styled.header`
     gap: clamp(2.5rem, 6vw, 5rem);
     grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
     min-height: inherit;
-    padding-bottom: 4rem;
-    padding-top: 4rem;
+    padding-bottom: 2.5rem;
+    padding-top: 2.5rem;
   }
 
   .hero-copy {
@@ -94,15 +94,27 @@ const StyledHero = styled.header`
   }
 
   .hero-button {
+    align-items: center;
     border: 1px solid var(--ink);
+    display: inline-flex;
     font-family: var(--mono-font);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.06em;
+    justify-content: center;
     padding: 0.9rem 1.2rem;
     text-decoration: none;
     text-transform: uppercase;
     transition: transform var(--transition), background var(--transition);
+    white-space: nowrap;
+  }
+
+  .hero-button.primary {
+    width: 11rem;
+  }
+
+  .hero-button:not(.primary) {
+    width: 13.5rem;
   }
 
   .hero-button.primary {
@@ -246,6 +258,7 @@ const propTypes = {
 const logoColors = ["cyan", "yellow", "coral", "ink"];
 
 const Hero = ({ name }) => {
+  const { t } = useTranslation();
   const [logoColorIndex, setLogoColorIndex] = React.useState(0);
   const logoColor = logoColors[logoColorIndex];
 
@@ -257,22 +270,26 @@ const Hero = ({ name }) => {
     <StyledHero>
       <Container className="hero-inner">
         <div className="hero-copy">
-          <div className="hero-eyebrow">{portfolioContent.eyebrow}</div>
+          <div className="hero-eyebrow">{t("hero.eyebrow")}</div>
           <h1>
             {name || "Breno Menezes"}
-            <span>Full Stack</span>
+            <span>{t("hero.fullStack")}</span>
           </h1>
-          <p className="hero-lead">{portfolioContent.introduction}</p>
+          <StableTranslation
+            as="p"
+            className="hero-lead"
+            translationKey="hero.introduction"
+          />
           <div className="hero-actions">
             <Link
               to="Projects"
               href="#projects"
               className="hero-button primary"
             >
-              View projects <Icon icon="lucide:arrow-up-right" />
+              {t("hero.viewProjects")} <Icon icon="lucide:arrow-up-right" />
             </Link>
             <Link to="Contact" href="#contact" className="hero-button">
-              Start a conversation
+              {t("hero.startConversation")}
             </Link>
           </div>
           <div className="hero-socials">
@@ -285,8 +302,8 @@ const Hero = ({ name }) => {
               className="logo-button"
               data-color={logoColor}
               type="button"
-              aria-label={`Change glasses logo color. Current color: ${logoColor}.`}
-              title="Click to change color"
+              aria-label={t("hero.logoLabel", { color: t(`hero.colors.${logoColor}`) })}
+              title={t("hero.logoTitle")}
               onClick={cycleLogoColor}
             >
               <span className="glasses-logo" aria-hidden="true" />
@@ -295,7 +312,7 @@ const Hero = ({ name }) => {
         </div>
       </Container>
       <Link to="About" href="#about" className="scroll-cue">
-        SCROLL ↓
+        {t("hero.scroll")}
       </Link>
     </StyledHero>
   );

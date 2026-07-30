@@ -3,10 +3,12 @@ import React from "react";
 import styled from "styled-components";
 // State
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Components
 import { Element } from "react-scroll";
 import { Container } from "react-bootstrap";
 import useReveal from "../hooks/useReveal";
+import StableTranslation from "./StableTranslation";
 
 // #region styled-components
 const StyledAboutMe = styled.section`
@@ -110,11 +112,10 @@ const StyledAboutMe = styled.section`
 // #region component
 const propTypes = {
   avatarUrl: PropTypes.string,
-  bio: PropTypes.string,
-  moreInfo: PropTypes.string,
 };
 
-const AboutMe = ({ avatarUrl, bio, moreInfo }) => {
+const AboutMe = ({ avatarUrl }) => {
+  const { t } = useTranslation();
   const { ref, isVisible } = useReveal();
   const photoUrl = React.useMemo(() => {
     if (!avatarUrl) return null;
@@ -133,10 +134,14 @@ const AboutMe = ({ avatarUrl, bio, moreInfo }) => {
       <StyledAboutMe className="section" ref={ref}>
         <Container className={`reveal ${isVisible ? "visible" : ""}`}>
           <div className="about-head">
-            <span className="eyebrow">{"/* a bit about me */"}</span>
-            <span className="eyebrow">01 / PROFILE</span>
+            <span className="eyebrow">{t("about.eyebrow")}</span>
+            <span className="eyebrow">{t("about.section")}</span>
           </div>
-          <h2 className="section-heading">Behind the code.</h2>
+          <StableTranslation
+            as="h2"
+            className="section-heading"
+            translationKey="about.heading"
+          />
           <div className="about-grid mt-5">
             <div className="about-copy">
               <div className="about-profile">
@@ -145,7 +150,7 @@ const AboutMe = ({ avatarUrl, bio, moreInfo }) => {
                     <img
                       className="about-photo"
                       src={photoUrl}
-                      alt="Breno Menezes"
+                      alt={t("about.photoAlt")}
                       loading="lazy"
                       width="480"
                       height="480"
@@ -153,8 +158,15 @@ const AboutMe = ({ avatarUrl, bio, moreInfo }) => {
                   </div>
                 )}
                 <div>
-                  {bio && <p><strong>{bio}</strong></p>}
-                  {moreInfo && <p>{moreInfo}</p>}
+                  <p>
+                    <strong>
+                      <StableTranslation translationKey="about.bio" />
+                    </strong>
+                  </p>
+                  <StableTranslation
+                    as="p"
+                    translationKey="about.details"
+                  />
                 </div>
               </div>
             </div>

@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 // State
 import { useGetUsersQuery, useGetSocialsQuery } from "../app/apiSlice";
+import { useTranslation } from "react-i18next";
 // Icons
 import { Icon } from "@iconify/react";
 // Config
@@ -26,6 +27,7 @@ const StyledSocialLinks = styled.div`
 
 // #region component
 const SocialLinks = () => {
+  const { t } = useTranslation();
   const { data: userData } = useGetUsersQuery();
   const { isSuccess, error, data: socialsData } = useGetSocialsQuery();
 
@@ -43,7 +45,7 @@ const SocialLinks = () => {
         href={userData.html_url}
         target="_blank"
         rel="noreferrer"
-        aria-label="Check out my GitHub profile."
+        aria-label={t("social.github")}
         className="link-icons"
       >
         <Icon icon="icomoon-free:github" />
@@ -53,7 +55,7 @@ const SocialLinks = () => {
           href={linkedin}
           target="_blank"
           rel="noreferrer"
-          aria-label="Check out my LinkedIn profile."
+          aria-label={t("social.linkedin")}
           className="link-icons"
         >
           <Icon icon="fa-brands:linkedin" />
@@ -89,7 +91,7 @@ const SocialLinks = () => {
               href={element.url}
               target="_blank"
               rel="noreferrer"
-              aria-label="External link"
+              aria-label={t("social.external")}
               className="link-icons"
             >
               {icon}
@@ -101,7 +103,7 @@ const SocialLinks = () => {
           href={userData.blog}
           target="_blank"
           rel="noreferrer"
-          aria-label="External link"
+          aria-label={t("social.external")}
           className="link-icons"
         >
           {Blog ? Blog : <Icon icon="ph:link-bold" />}

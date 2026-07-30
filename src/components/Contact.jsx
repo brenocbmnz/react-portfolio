@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 // Styles
 import styled from "styled-components";
 // Components
@@ -6,6 +7,7 @@ import { Element } from "react-scroll";
 import { Container } from "react-bootstrap";
 import ContactForm from "./ContactForm";
 import useReveal from "../hooks/useReveal";
+import StableTranslation from "./StableTranslation";
 
 // #region styled-components
 const StyledSection = styled.section`
@@ -33,6 +35,10 @@ const StyledSection = styled.section`
     opacity: 0.72;
   }
 
+  .contact-copy .section-heading::after {
+    background: linear-gradient(90deg, var(--yellow) 0 72%, #8b5cf6 72% 100%);
+  }
+
   .reveal {
     opacity: 0;
     transform: translateY(24px);
@@ -49,6 +55,7 @@ const StyledSection = styled.section`
 
 // #region component
 const Contact = () => {
+  const { t } = useTranslation();
   const { ref, isVisible } = useReveal();
 
   return (
@@ -56,16 +63,20 @@ const Contact = () => {
       <StyledSection className="section" ref={ref}>
         <Container className={`reveal ${isVisible ? "visible" : ""}`}>
           <div className="contact-head">
-            <span className="eyebrow">{"/* get in touch */"}</span>
-            <span className="eyebrow">04 / CONTACT</span>
+            <span className="eyebrow">{t("contact.eyebrow")}</span>
+            <span className="eyebrow">{t("contact.section")}</span>
           </div>
           <div className="contact-grid">
             <div className="contact-copy">
-              <h2 className="section-heading">Let’s build something useful.</h2>
-              <p>
-                Have a project, an opportunity, or a technical problem worth discussing?
-                Send me the context and I’ll get back to you.
-              </p>
+              <StableTranslation
+                as="h2"
+                className="section-heading"
+                translationKey="contact.heading"
+              />
+              <StableTranslation
+                as="p"
+                translationKey="contact.introduction"
+              />
             </div>
             <ContactForm />
           </div>

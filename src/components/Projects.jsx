@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 // State
 import { useSelector } from "react-redux";
 import { selectProjects, selectMainProjects } from "../app/projectsSlice";
@@ -13,6 +14,7 @@ import ProjectCard from "./ProjectCard";
 import styled from "styled-components";
 import useReveal from "../hooks/useReveal";
 import { githubUsername } from "../config";
+import StableTranslation from "./StableTranslation";
 
 const StyledProjects = styled.section`
   background: var(--paper);
@@ -150,6 +152,7 @@ const StyledProjects = styled.section`
 
 // #region component
 const Projects = () => {
+  const { t } = useTranslation();
   const projects = useSelector(selectProjects);
   const mainProjects = useSelector(selectMainProjects);
   const { isLoading, isSuccess, isError, error } = useGetProjectsQuery();
@@ -167,7 +170,7 @@ const Projects = () => {
       <>
         {!error && projects.length === 0 && (
           <h2 className="text-center">
-            Oops, you do not have any GitHub projects yet...
+            {t("projects.empty")}
           </h2>
         )}
         {mainProjects.length !== 0 && (
@@ -177,11 +180,13 @@ const Projects = () => {
                 return (
                   <ProjectCard
                     key={element.id}
-                    category={element.category}
-                    stack={element.stack}
+                    category={t(`projects.items.${element.name}.category`, { defaultValue: element.category })}
+                    stack={element.stack.map((technology) =>
+                      t(`technology.${technology}`, { defaultValue: technology })
+                    )}
                     index={index}
                     name={element.name}
-                    description={element.description}
+                    description={t(`projects.items.${element.name}.description`, { defaultValue: element.description })}
                     url={element.html_url}
                     demo={element.homepage}
                   />
@@ -195,7 +200,7 @@ const Projects = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                All projects <Icon icon="lucide:arrow-right" />
+                {t("projects.all")} <Icon icon="lucide:arrow-right" />
               </a>
             )}
           </>
@@ -205,7 +210,7 @@ const Projects = () => {
   } else if (isError) {
     content = (
       <Container className="d-flex align-items-center justify-content-center">
-        <h2>{`${error.status} - check getProjects query in src/app/apiSlice.js`}</h2>
+        <h2>{`${error.status} - ${t("errors.projects")}`}</h2>
       </Container>
     );
   }
@@ -216,25 +221,31 @@ const Projects = () => {
         <Container>
           <div className={`section-copy ${isVisible ? "visible" : ""}`}>
             <div className="projects-head">
-              <span className="eyebrow">{"/* selected work */"}</span>
-              <span className="eyebrow">02 / PROJECTS</span>
+              <span className="eyebrow">{t("projects.eyebrow")}</span>
+              <span className="eyebrow">{t("projects.section")}</span>
             </div>
             <div className="projects-title-row">
-              <h2 className="section-heading">Built to solve real problems.</h2>
-              <div className="project-status" aria-label="Portfolio statistics">
+              <StableTranslation
+                as="h2"
+                className="section-heading"
+                translationKey="projects.heading"
+              />
+              <div className="project-status" aria-label={t("projects.statsLabel")}>
                 <div className="project-status-item">
-                  <div className="project-status-key">total_projects</div>
+                  <div className="project-status-key">{t("projects.total")}</div>
                   <div className="project-status-value">{projects.length}</div>
                 </div>
                 <div className="project-status-item">
-                  <div className="project-status-key">focus</div>
-                  <div className="project-status-value">WEB</div>
+                  <div className="project-status-key">{t("projects.focus")}</div>
+                  <div className="project-status-value">{t("projects.focusValue")}</div>
                 </div>
               </div>
             </div>
-            <p className="projects-intro">
-              Selected applications spanning community tools, creative workflows, and commerce.
-            </p>
+            <StableTranslation
+              as="p"
+              className="projects-intro"
+              translationKey="projects.introduction"
+            />
           </div>
           {content}
         </Container>

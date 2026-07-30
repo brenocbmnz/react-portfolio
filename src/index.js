@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 // Styles
 import "./custom.scss";
+import "./i18n";
 // State
 import { Provider } from "react-redux";
 import { store } from "./app/store";

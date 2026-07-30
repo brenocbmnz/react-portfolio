@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectMode } from "../app/appSlice";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 // Icons
 import { Icon } from "@iconify/react";
 
@@ -40,6 +41,7 @@ const propTypes = {
 };
 
 const ThemeToggle = ({ closeDelay = 250, setExpanded, setTheme }) => {
+  const { t } = useTranslation();
   const theme = useSelector(selectMode);
 
   const toggleTheme = () => {
@@ -51,7 +53,7 @@ const ThemeToggle = ({ closeDelay = 250, setExpanded, setTheme }) => {
   return (
     <StyledSwitch
       type="button"
-      aria-label={`Toggle theme, currently ${theme}.`}
+      aria-label={t("theme.toggle", { theme: t(`theme.${theme}`) })}
       onClick={() => {
         toggleTheme();
         setTimeout(() => {
