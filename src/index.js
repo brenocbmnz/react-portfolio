@@ -6,7 +6,12 @@ import "./custom.scss";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 // Config
-import { filteredProjects, projectCardImages, projectDescriptions } from "./config";
+import {
+  filteredProjects,
+  projectCardImages,
+  projectDescriptions,
+  projectMetadata,
+} from "./config";
 import App from "./App";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 
@@ -18,6 +23,7 @@ root.render(
       filteredProjects={filteredProjects}
       projectCardImages={projectCardImages}
       projectDescriptions={projectDescriptions}
+      projectMetadata={projectMetadata}
     />
   </Provider>
 );

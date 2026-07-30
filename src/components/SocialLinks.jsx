@@ -10,8 +10,17 @@ import { Blog, linkedin } from "../config";
 
 // #region styled-components
 const StyledSocialLinks = styled.div`
+  display: flex;
+  gap: 0.75rem;
+
   a {
-    margin: 0 1rem;
+    align-items: center;
+    border: 1px solid currentColor;
+    display: inline-flex;
+    height: 2.6rem;
+    justify-content: center;
+    margin: 0;
+    width: 2.6rem;
   }
 `;
 // #endregion
@@ -33,6 +42,8 @@ const SocialLinks = () => {
     <StyledSocialLinks>
       <a
         href={userData.html_url}
+        target="_blank"
+        rel="noreferrer"
         aria-label="Check out my GitHub profile."
         className="link-icons"
       >
@@ -41,6 +52,8 @@ const SocialLinks = () => {
       {linkedin && (
         <a
           href={linkedin}
+          target="_blank"
+          rel="noreferrer"
           aria-label="Check out my LinkedIn profile."
           className="link-icons"
         >
@@ -75,6 +88,8 @@ const SocialLinks = () => {
             <a
               key={index}
               href={element.url}
+              target="_blank"
+              rel="noreferrer"
               aria-label="External link"
               className="link-icons"
             >
@@ -85,6 +100,8 @@ const SocialLinks = () => {
       {userData.blog && (
         <a
           href={userData.blog}
+          target="_blank"
+          rel="noreferrer"
           aria-label="External link"
           className="link-icons"
         >

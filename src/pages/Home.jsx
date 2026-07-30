@@ -7,7 +7,6 @@ import AboutMe from "../components/AboutMe";
 import Skills from "../components/Skills";
 import Projects from "../components/Projects";
 import Contact from "../components/Contact";
-import BackToTop from "../components/BackToTop";
 // Config
 import { filteredProjects, moreInfo } from "../config";
 // Utils
@@ -26,7 +25,7 @@ const Home = () => {
       <Hero name={userData.name} />
       <main>
         <AboutMe
-          avatar_url={userData.avatar_url}
+          avatarUrl={userData.avatar_url}
           bio={userData.bio}
           moreInfo={moreInfo}
         />
@@ -34,7 +33,6 @@ const Home = () => {
         <Projects filteredProjects={filteredProjects} />
         <Contact />
       </main>
-      <BackToTop />
     </>
   );
 };

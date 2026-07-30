@@ -1,6 +1,9 @@
 // https://getbootstrap.com/docs/5.3/utilities/colors/#sass-variables
 
-// Set the primary color for the theme
-$blue: #61dbfb;
+// Align Bootstrap controls with the portfolio's cyan accent.
+$blue: #20c7d9;
+$border-radius: 0.25rem;
+$border-radius-lg: 0.35rem;
+$border-radius-sm: 0.2rem;
 // Import Bootstrap and its default variables
 @import "~bootstrap/scss/bootstrap.scss";

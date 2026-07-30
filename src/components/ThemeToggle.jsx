@@ -9,32 +9,21 @@ import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 
 // #region styled-components
-const StyledSwitch = styled.label`
-  /* Slider pill */
-  display: flex;
-  width: 3.2rem;
-  font-size: 1.5rem;
-  border-radius: 30px;
-  transition: var(--transition);
-  border: 2px solid;
+const StyledSwitch = styled.button`
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  display: inline-flex;
+  font-size: 1.1rem;
+  height: 2.4rem;
+  justify-content: center;
+  transition: background var(--transition), color var(--transition);
+  width: 2.4rem;
 
-  /* Hide defualt checkbox */
-  input[type="checkbox"] {
-    height: 0;
-    width: 0;
-    opacity: 0;
-  }
-
-  /* Move span when checked */
-  input[type="checkbox"]:checked + div {
-    transform: translateX(100%);
-  }
-
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: var(--transition);
+  &:hover {
+    background: var(--ink);
+    color: var(--paper);
   }
 `;
 // #endregion
@@ -61,24 +50,20 @@ const ThemeToggle = ({ closeDelay = 250, setExpanded, setTheme }) => {
 
   return (
     <StyledSwitch
+      type="button"
+      aria-label={`Toggle theme, currently ${theme}.`}
       onClick={() => {
+        toggleTheme();
         setTimeout(() => {
           setExpanded(false);
         }, closeDelay);
       }}
     >
-      <input
-        type="checkbox"
-        aria-label={`Toggle theme, currently ${theme}.`}
-        onClick={() => toggleTheme()}
-      />
-      <div>
-        {theme === "light" ? (
-          <Icon icon="game-icons:sunflower" />
-        ) : (
-          <Icon icon="game-icons:moon" />
-        )}
-      </div>
+      {theme === "light" ? (
+        <Icon icon="lucide:sun" />
+      ) : (
+        <Icon icon="lucide:moon" />
+      )}
     </StyledSwitch>
   );
 };

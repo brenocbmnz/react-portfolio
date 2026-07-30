@@ -15,7 +15,6 @@ import PropTypes from "prop-types";
 import { HashRouter, Routes, Route } from "react-router-dom";
 // Pages
 import Home from "./pages/Home";
-import AllProjects from "./pages/AllProjects";
 import NotFound from "./pages/NotFound";
 // Components
 import { ErrorBoundary } from "react-error-boundary";
@@ -27,8 +26,10 @@ import { Element } from "react-scroll";
 import { Container } from "react-bootstrap";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
+import CommandPalette from "./components/CommandPalette";
+import ScrollProgress from "./components/ScrollProgress";
 // Config
-import { footerTheme, navLogo } from "./config";
+import { footerTheme, githubUsername, linkedin, navLogo } from "./config";
 // Util
 import { getStoredTheme, getPreferredTheme, setTheme } from "./utils";
 
@@ -47,9 +48,22 @@ const propTypes = {
       description: PropTypes.string.isRequired,
     })
   ),
+  projectMetadata: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      category: PropTypes.string,
+      stack: PropTypes.arrayOf(PropTypes.string),
+      featuredOrder: PropTypes.number,
+    })
+  ),
 };
 
-const App = ({ projectCardImages = [], filteredProjects = [], projectDescriptions = [] }) => {
+const App = ({
+  projectCardImages = [],
+  filteredProjects = [],
+  projectDescriptions = [],
+  projectMetadata = [],
+}) => {
   const theme = useSelector(selectMode);
   const projects = useSelector(selectProjects);
   const dispatch = useDispatch();
@@ -59,51 +73,49 @@ const App = ({ projectCardImages = [], filteredProjects = [], projectDescription
 
   // Set all projects state
   React.useEffect(() => {
-    const tempData = [];
-    if (projectsData !== undefined && projectsData.length !== 0) {
-      projectsData.forEach((element) => {
-        const tempObj = {
-          id: null,
-          homepage: null,
-          description: null,
-          image: null,
-          name: null,
-          html_url: null,
+    if (!projectsData?.length) return;
+
+    const byName = (items) =>
+      new Map(items.map((item) => [item.name.toLowerCase(), item]));
+    const images = byName(projectCardImages);
+    const descriptions = byName(projectDescriptions);
+    const metadata = byName(projectMetadata);
+
+    const mergedProjects = projectsData
+      .map((project) => {
+        const key = project.name.toLowerCase();
+        const configured = metadata.get(key) || {};
+
+        return {
+          id: project.id,
+          homepage: project.homepage,
+          description:
+            configured.description ||
+            descriptions.get(key)?.description ||
+            project.description ||
+            "Open-source work from my GitHub profile.",
+          image: configured.image || images.get(key)?.image || null,
+          name: project.name,
+          html_url: project.html_url,
+          category: configured.category || "Open Source",
+          stack: configured.stack || project.topics || [],
+          featuredOrder: configured.featuredOrder ?? Number.MAX_SAFE_INTEGER,
         };
-        tempObj.id = element.id;
-        tempObj.homepage = element.homepage;
-        tempObj.description = element.description;
-        tempObj.name = element.name;
-        tempObj.html_url = element.html_url;
-        tempData.push(tempObj);
-      });
-      if (
-        projectCardImages !== (undefined && null) &&
-        projectCardImages.length !== 0
-      ) {
-        projectCardImages.forEach((element) => {
-          tempData.forEach((ele) => {
-            if (element.name.toLowerCase() === ele.name.toLowerCase()) {
-              ele.image = element.image;
-            }
-          });
-        });
-      }
-      if (
-        projectDescriptions !== (undefined && null) &&
-        projectDescriptions.length !== 0
-      ) {
-        projectDescriptions.forEach((element) => {
-          tempData.forEach((ele) => {
-            if (element.name.toLowerCase() === ele.name.toLowerCase()) {
-              ele.description = element.description;
-            }
-          });
-        });
-      }
-      dispatch(setProjects(tempData));
-    }
-  }, [projectsData, projectCardImages, dispatch]);
+      })
+      .sort(
+        (first, second) =>
+          first.featuredOrder - second.featuredOrder ||
+          first.name.localeCompare(second.name)
+      );
+
+    dispatch(setProjects(mergedProjects));
+  }, [
+    projectsData,
+    projectCardImages,
+    projectDescriptions,
+    projectMetadata,
+    dispatch,
+  ]);
 
   // Set main projects state
   React.useEffect(() => {
@@ -165,7 +177,6 @@ const App = ({ projectCardImages = [], filteredProjects = [], projectDescription
         </Element>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route path="/All-Projects" element={<AllProjects />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer mode={footerTheme} />
@@ -191,7 +202,13 @@ const App = ({ projectCardImages = [], filteredProjects = [], projectDescription
         <ThemeProvider theme={{ name: theme }}>
           <ScrollToTop />
           <GlobalStyles />
+          <ScrollProgress />
           {content}
+          <CommandPalette
+            githubUrl={`https://github.com/${githubUsername}`}
+            linkedinUrl={linkedin}
+            onToggleTheme={() => setThemes(theme === "light" ? "dark" : "light")}
+          />
         </ThemeProvider>
       </HashRouter>
     </ErrorBoundary>

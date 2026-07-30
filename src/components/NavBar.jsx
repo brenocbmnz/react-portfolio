@@ -6,18 +6,21 @@ import { selectMode } from "../app/appSlice";
 import PropTypes from "prop-types";
 // Router
 import { Link, useLocation } from "react-router-dom";
-// Images
-import defaultLogo from "../images/defaultNavLogo.svg";
 // Components
 import { Link as ScrollLink } from "react-scroll";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import ThemeToggle from "./ThemeToggle";
+import { githubUsername } from "../config";
 
 // #region constants
 const navLinks = {
   routes: [
     { id: "1R", name: "Home", route: "/" },
-    { id: "2R", name: "All Projects", route: "/All-Projects" },
+    {
+      id: "2R",
+      name: "All Projects",
+      href: `https://github.com/${githubUsername}?tab=repositories`,
+    },
   ],
   to: [
     { id: "1T", name: "Home", to: "Home" },
@@ -32,16 +35,80 @@ const navLinks = {
 // #region styled-components
 const StyledDiv = styled.div`
   .navbar {
+    backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--paper) 88%, transparent) !important;
     border-bottom: var(--border);
+    min-height: var(--nav-height);
+    padding: 0;
   }
 
   .spacer {
     height: var(--nav-height);
   }
 
-  .logo-img {
-    background: ${({ theme }) =>
-      theme.name === "light" ? "var(--bs-dark)" : "var(--bs-light)"};
+  .navbar-brand {
+    align-items: center;
+    color: var(--ink);
+    display: flex;
+    font-family: var(--mono-font);
+    font-size: 0.82rem;
+    font-weight: 600;
+    gap: 0.65rem;
+    letter-spacing: 0.05em;
+  }
+
+  .brand-mark {
+    align-items: center;
+    background: var(--cyan);
+    color: #101414;
+    display: inline-flex;
+    height: 2rem;
+    justify-content: center;
+    width: 2rem;
+  }
+
+  .nav-link {
+    color: var(--muted) !important;
+    font-family: var(--mono-font);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    padding: 1.55rem 0.8rem !important;
+    text-transform: uppercase;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--ink) !important;
+  }
+
+  .nav-link.active {
+    box-shadow: inset 0 -3px var(--cyan);
+  }
+
+  .command-hint {
+    color: var(--muted);
+    font-family: var(--mono-font);
+    font-size: 0.68rem;
+    margin-right: 0.75rem;
+  }
+
+  .navbar-toggler {
+    border-color: var(--line);
+    border-radius: 0.2rem;
+  }
+
+  @media (max-width: 1199px) {
+    .navbar-collapse {
+      border-top: var(--border);
+    }
+
+    .nav-link {
+      padding: 0.85rem 0 !important;
+    }
+
+    .command-hint {
+      display: none;
+    }
   }
 `;
 // #endregion
@@ -53,7 +120,7 @@ const propTypes = {
   closeDelay: PropTypes.number,
 };
 
-const NavBar = ({ Logo = defaultLogo, callBack, closeDelay = 125 }) => {
+const NavBar = ({ callBack, closeDelay = 125 }) => {
   const theme = useSelector(selectMode);
   const [isExpanded, setisExpanded] = React.useState(false);
   const { pathname } = useLocation();
@@ -71,14 +138,9 @@ const NavBar = ({ Logo = defaultLogo, callBack, closeDelay = 125 }) => {
         fixed="top"
       >
         <Container>
-          <Navbar.Brand>
-            <img
-              alt="Logo"
-              src={Logo === null ? defaultLogo : Logo}
-              width="35"
-              height="35"
-              className="rounded-circle logo-img"
-            />
+          <Navbar.Brand as={ScrollLink} to="Home" href="#home">
+            <span className="brand-mark">BM</span>
+            BRENO.MENEZES
           </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
@@ -110,26 +172,43 @@ const NavBar = ({ Logo = defaultLogo, callBack, closeDelay = 125 }) => {
                 : navLinks.routes.map((el) => {
                     return (
                       <Nav.Item key={el.id}>
-                        <Link
-                          to={el.route}
-                          className={
-                            pathname === el.route
-                              ? "nav-link active"
-                              : "nav-link"
-                          }
-                          onClick={() => {
-                            setTimeout(() => {
-                              setisExpanded(false);
-                            }, closeDelay);
-                          }}
-                        >
-                          {el.name}
-                        </Link>
+                        {el.href ? (
+                          <a
+                            href={el.href}
+                            className="nav-link"
+                            target="_blank"
+                            rel="noreferrer"
+                            onClick={() => {
+                              setTimeout(() => {
+                                setisExpanded(false);
+                              }, closeDelay);
+                            }}
+                          >
+                            {el.name}
+                          </a>
+                        ) : (
+                          <Link
+                            to={el.route}
+                            className={
+                              pathname === el.route
+                                ? "nav-link active"
+                                : "nav-link"
+                            }
+                            onClick={() => {
+                              setTimeout(() => {
+                                setisExpanded(false);
+                              }, closeDelay);
+                            }}
+                          >
+                            {el.name}
+                          </Link>
+                        )}
                       </Nav.Item>
                     );
                   })}
             </Nav>
-            <Nav>
+            <Nav className="align-items-xl-center pb-3 pb-xl-0">
+              <span className="command-hint">PRESS / FOR COMMANDS</span>
               <ThemeToggle
                 closeDelay={closeDelay}
                 setExpanded={setisExpanded}

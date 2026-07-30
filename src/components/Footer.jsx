@@ -8,31 +8,37 @@ import SocialLinks from "./SocialLinks";
 
 // #region styled-components
 const StyledFooter = styled.footer`
-  height: calc(var(--nav-height) + 1rem);
-  background: var(--bs-primary);
+  background: #101414;
+  color: #f4f1e8;
+  min-height: 5rem;
+  padding: 1rem clamp(1rem, 4vw, 3rem);
+
+  .footer-inner {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: var(--page-width);
+    width: 100%;
+  }
+
+  .footer-copy {
+    font-family: var(--mono-font);
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
 
   a {
-    color: ${({ $mode }) => {
-      if ($mode !== undefined && $mode !== null) {
-        return $mode.toLowerCase() === "light"
-          ? "var(--bs-light)"
-          : "var(--bs-gray-dark)";
-      } else {
-        return "var(--bs-gray-dark)";
-      }
-    }};
+    color: #f4f1e8;
 
     &:hover {
-      color: ${({ $mode }) => {
-        if ($mode !== undefined && $mode !== null) {
-          return $mode.toLowerCase() === "light"
-            ? "var(--bs-gray-dark)"
-            : "var(--bs-light)";
-        } else {
-          return "var(--bs-gray-dark)";
-        }
-      }};
+      color: var(--cyan);
     }
+  }
+
+  @media (max-width: 575px) {
+    .footer-inner { align-items: flex-start; flex-direction: column; gap: 1rem; }
   }
 `;
 // #endregion
@@ -44,11 +50,11 @@ const propTypes = {
 
 const Footer = ({ mode }) => {
   return (
-    <StyledFooter
-      $mode={mode}
-      className="d-flex align-items-center justify-content-center p-2"
-    >
-      <SocialLinks />
+    <StyledFooter $mode={mode}>
+      <div className="footer-inner">
+        <span className="footer-copy">Breno Menezes % Full-stack developer</span>
+        <SocialLinks />
+      </div>
     </StyledFooter>
   );
 };
