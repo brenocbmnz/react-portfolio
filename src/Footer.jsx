@@ -9,7 +9,7 @@ import SocialLinks from "./SocialLinks";
 
 // #region styled-components
 const StyledFooter = styled.footer`
-  background: ${({ theme }) => theme.name === "light" ? "#f3af8d" : "#101414"};
+  background: ${({ theme }) => theme.name === "light" ? "#ffbfa0" : "#101414"};
   color: ${({ theme }) => theme.name === "light" ? "#101414" : "#f4f1e8"};
   min-height: 5rem;
   padding: 1rem clamp(1rem, 4vw, 3rem);

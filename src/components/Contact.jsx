@@ -11,8 +11,8 @@ import StableTranslation from "./StableTranslation";
 
 // #region styled-components
 const StyledSection = styled.section`
-  background: var(--cyan);
-  color: #101414;
+  background: var(--contact-background);
+  color: var(--contact-text);
   min-height: calc(100vh - var(--nav-height));
 
   .contact-head {
@@ -36,7 +36,7 @@ const StyledSection = styled.section`
   }
 
   .contact-copy .section-heading::after {
-    background: linear-gradient(90deg, var(--yellow) 0 72%, #8b5cf6 72% 100%);
+    background: linear-gradient(90deg, var(--yellow) 0 72%, var(--coral) 72% 100%);
   }
 
   .reveal {

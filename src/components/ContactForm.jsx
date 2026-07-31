@@ -12,10 +12,6 @@ import { postData } from "../utils";
 
 // #region styled-components
 const StyledForm = styled.div`
-  --form-background: ${({ theme }) => theme.name === "light" ? "#eee3ce" : "#101414"};
-  --form-text: ${({ theme }) => theme.name === "light" ? "#101414" : "#f4f1e8"};
-  --form-line: ${({ theme }) => theme.name === "light" ? "rgba(16, 20, 20, 0.35)" : "rgba(244, 241, 232, 0.35)"};
-  --form-placeholder: ${({ theme }) => theme.name === "light" ? "#667070" : "#788383"};
   background: var(--form-background);
   color: var(--form-text);
   overflow: hidden;
@@ -103,7 +99,7 @@ const StyledForm = styled.div`
     align-items: center;
     background: var(--yellow);
     border: 1px solid var(--yellow);
-    color: #101414;
+    color: var(--on-accent);
     display: inline-flex;
     font-family: var(--mono-font);
     font-size: 0.72rem;
@@ -120,7 +116,7 @@ const StyledForm = styled.div`
     background: color-mix(in srgb, var(--yellow) 82%, white);
     border-color: var(--yellow);
     box-shadow: 5px 5px 0 var(--cyan);
-    color: #101414;
+    color: var(--on-accent);
     transform: translate(-2px, -2px);
   }
 
@@ -155,7 +151,7 @@ const StyledForm = styled.div`
 
   .success-alert > svg {
     background: var(--cyan);
-    color: #101414;
+    color: var(--on-accent);
     font-size: 2rem;
     padding: 0.4rem;
   }

@@ -10,9 +10,25 @@ const blinkCursor = keyframes`
   46%, 100% { opacity: 0; }
 `;
 
+const revealTrigger = keyframes`
+  from { opacity: 0; transform: translateY(10px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
+const revealOverlay = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const revealDialog = keyframes`
+  from { opacity: 0; transform: translateY(-12px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
 const Terminal = styled.div`
   .terminal-trigger {
     align-items: center;
+    animation: ${revealTrigger} 300ms 120ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
     background: var(--ink);
     border: 1px solid var(--cyan);
     bottom: 1.25rem;
@@ -51,7 +67,8 @@ const Terminal = styled.div`
 
   .terminal-overlay {
     align-items: flex-start;
-    background: rgba(4, 8, 8, 0.72);
+    animation: ${revealOverlay} 200ms ease-out both;
+    background: var(--palette-backdrop);
     display: flex;
     inset: 0;
     justify-content: center;
@@ -61,10 +78,11 @@ const Terminal = styled.div`
   }
 
   .terminal-dialog {
-    background: #101616;
-    border: 1px solid rgba(32, 199, 217, 0.5);
+    animation: ${revealDialog} 280ms 40ms cubic-bezier(0.2, 0.75, 0.2, 1) both;
+    background: var(--palette-background);
+    border: 1px solid color-mix(in srgb, var(--cyan) 55%, transparent);
     box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
-    color: #f4f1e8;
+    color: var(--palette-text);
     font-family: var(--mono-font);
     max-width: 36rem;
     padding: 1rem;
@@ -73,7 +91,7 @@ const Terminal = styled.div`
 
   .terminal-bar {
     align-items: center;
-    border-bottom: 1px solid rgba(244, 241, 232, 0.14);
+    border-bottom: 1px solid var(--palette-line);
     display: flex;
     justify-content: space-between;
     margin-bottom: 0.8rem;
@@ -82,14 +100,14 @@ const Terminal = styled.div`
 
   .terminal-label,
   .terminal-hint {
-    color: #9ba8a8;
+    color: var(--palette-muted);
     font-size: 0.7rem;
   }
 
   .terminal-close {
     background: transparent;
     border: 0;
-    color: #f4f1e8;
+    color: var(--palette-text);
     font-size: 1.25rem;
     line-height: 1;
   }
@@ -113,7 +131,7 @@ const Terminal = styled.div`
 
   .terminal-input-row {
     align-items: center;
-    border-top: 1px solid rgba(244, 241, 232, 0.14);
+    border-top: 1px solid var(--palette-line);
     display: flex;
     gap: 0.6rem;
     margin-top: 0.75rem;
@@ -127,7 +145,7 @@ const Terminal = styled.div`
   input {
     background: transparent;
     border: 0;
-    color: #f4f1e8;
+    color: var(--palette-text);
     flex: 1;
     font-family: inherit;
     min-width: 0;
@@ -135,6 +153,12 @@ const Terminal = styled.div`
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .terminal-trigger,
+    .terminal-overlay,
+    .terminal-dialog {
+      animation: none;
+    }
+
     .terminal-trigger:hover .terminal-cursor,
     .terminal-trigger:focus-visible .terminal-cursor {
       animation: none;
@@ -150,14 +174,17 @@ const sectionIds = {
 };
 
 const propTypes = {
+  easterTheme: PropTypes.oneOf(["hacker", "cute", "space"]),
   githubUrl: PropTypes.string,
   linkedinUrl: PropTypes.string,
+  onSetEasterTheme: PropTypes.func.isRequired,
   onToggleTheme: PropTypes.func.isRequired,
 };
 
-const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
+const CommandPalette = ({ easterTheme, githubUrl, linkedinUrl, onSetEasterTheme, onToggleTheme }) => {
   const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isDiscovered, setIsDiscovered] = React.useState(false);
   const [entries, setEntries] = React.useState([
     { command: "", result: t("terminal.initial") },
   ]);
@@ -198,6 +225,10 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
       );
       if (event.key === "/" && !isTyping) {
         event.preventDefault();
+        if (!isDiscovered) {
+          setIsDiscovered(true);
+          window.dispatchEvent(new Event("command-palette-discovered"));
+        }
         setIsOpen(true);
       } else if (event.key === "Escape" && isOpen) {
         close();
@@ -205,7 +236,7 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
     };
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
-  }, [close, isOpen]);
+  }, [close, isDiscovered, isOpen]);
 
   React.useEffect(() => {
     if (isOpen) window.requestAnimationFrame(() => inputRef.current?.focus());
@@ -228,9 +259,31 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
       setEntries([]);
       return null;
     };
+    const more = () => t("terminal.easter.more");
+    const extraThemes = () => t("terminal.easter.extraThemes");
+    const activateEasterTheme = (nextTheme) => {
+      onSetEasterTheme(nextTheme);
+      return t("terminal.easter.activated", {
+        theme: t(`terminal.easter.themes.${nextTheme}`),
+      });
+    };
+    const restoreNormalTheme = () => {
+      onSetEasterTheme(null);
+      return easterTheme
+        ? t("terminal.easter.restored")
+        : t("terminal.easter.alreadyNormal");
+    };
     const commands = {
       help,
       ajuda: help,
+      more,
+      mais: more,
+      "extra-themes": extraThemes,
+      "temas-extras": extraThemes,
+      hacker: () => activateEasterTheme("hacker"),
+      cute: () => activateEasterTheme("cute"),
+      space: () => activateEasterTheme("space"),
+      normal: restoreNormalTheme,
       about,
       sobre: about,
       projects,
@@ -273,17 +326,19 @@ const CommandPalette = ({ githubUrl, linkedinUrl, onToggleTheme }) => {
 
   return (
     <Terminal>
-      <button
-        ref={triggerRef}
-        className="terminal-trigger"
-        type="button"
-        title={t("terminal.open")}
-        aria-label={t("terminal.open")}
-        onClick={() => setIsOpen(true)}
-      >
-        <span aria-hidden="true">&gt;</span>
-        <span className="terminal-cursor" aria-hidden="true">_</span>
-      </button>
+      {isDiscovered && (
+        <button
+          ref={triggerRef}
+          className="terminal-trigger"
+          type="button"
+          title={t("terminal.open")}
+          aria-label={t("terminal.open")}
+          onClick={() => setIsOpen(true)}
+        >
+          <span aria-hidden="true">&gt;</span>
+          <span className="terminal-cursor" aria-hidden="true">_</span>
+        </button>
+      )}
       {isOpen && (
         <div
           className="terminal-overlay"

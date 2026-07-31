@@ -11,8 +11,8 @@ import useReveal from "../hooks/useReveal";
 import StableTranslation from "./StableTranslation";
 
 const StyledSkills = styled.section`
-  background: var(--yellow);
-  color: #101414;
+  background: var(--skills-background);
+  color: var(--skills-text);
 
   .skills-head {
     display: flex;
@@ -21,7 +21,7 @@ const StyledSkills = styled.section`
   }
 
   .skills-intro {
-    color: rgba(16, 20, 20, 0.68);
+    color: var(--skills-muted);
     line-height: 1.75;
     margin: 1.5rem 0 3rem;
     max-width: 620px;
@@ -35,11 +35,11 @@ const StyledSkills = styled.section`
   }
 
   .skill-groups {
-    border-top: 1px solid rgba(16, 20, 20, 0.35);
+    border-top: 1px solid var(--skills-line);
   }
 
   .skill-group {
-    border-bottom: 1px solid rgba(16, 20, 20, 0.35);
+    border-bottom: 1px solid var(--skills-line);
     display: grid;
     gap: 1.5rem;
     grid-template-columns: 0.7fr 1.3fr;
@@ -48,7 +48,7 @@ const StyledSkills = styled.section`
   }
 
   .skill-group:hover {
-    background: rgba(16, 20, 20, 0.07);
+    background: var(--skills-hover);
     padding-left: 0.8rem;
     transform: translateX(5px);
   }
@@ -62,7 +62,7 @@ const StyledSkills = styled.section`
   }
 
   .skill-group:hover h3 {
-    color: #087f8c;
+    color: var(--coral);
     transform: translateX(3px);
   }
 
@@ -89,8 +89,8 @@ const StyledSkills = styled.section`
 
   .skill-tile {
     align-items: center;
-    background: #101414;
-    color: #f4f1e8;
+    background: var(--skill-tile-background);
+    color: var(--skill-tile-text);
     display: flex;
     flex-direction: column;
     font-family: var(--mono-font);
@@ -111,7 +111,7 @@ const StyledSkills = styled.section`
   }
 
   .skill-tile:hover {
-    background: #202929;
+    background: var(--skill-tile-hover);
     color: var(--yellow);
     transform: translateY(-5px);
   }
@@ -122,7 +122,7 @@ const StyledSkills = styled.section`
   }
 
   .resume-link {
-    border: 1px solid #101414;
+    border: 1px solid currentColor;
     display: inline-block;
     font-family: var(--mono-font);
     font-size: 0.72rem;

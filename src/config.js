@@ -151,7 +151,14 @@ export const resume = null;
  ************************************************************** 
   List the repo names (string - "your-repo-name") you want to include (they will be sorted alphabetically). If empty, only the first 3 will be included.
 */
-export const filteredProjects = ["safer-app", "dnd-gen", "ecommerce-integrador"];
+export const filteredProjects = [
+  "safer-app",
+  "dnd-gen",
+  "ecommerce-integrador",
+  "sistema-req-provas",
+  "payroll-loan-simulator-api",
+  "knowledge-ramp-up",
+];
 
 export const projectMetadata = [
   {
@@ -178,6 +185,30 @@ export const projectMetadata = [
     description:
       "A complete e-commerce platform covering the core browsing and purchasing workflow.",
   },
+  {
+    name: "sistema-req-provas",
+    category: "Education",
+    stack: ["Laravel", "Filament", "Livewire"],
+    featuredOrder: 4,
+    description:
+      "A Laravel and Filament system for managing exam requests, academic records, and PDF reports.",
+  },
+  {
+    name: "payroll-loan-simulator-api",
+    category: "Fintech API",
+    stack: ["Python", "Django", "PostgreSQL", "Docker"],
+    featuredOrder: 5,
+    description:
+      "A Django REST API that simulates payroll loans, checks salary margins, and preserves complete payment schedules.",
+  },
+  {
+    name: "knowledge-ramp-up",
+    category: "Learning Platform",
+    stack: ["React", "Express", "MongoDB", "Auth0"],
+    featuredOrder: 6,
+    description:
+      "A learning platform for following structured study tracks, logging time, and monitoring progress step by step.",
+  },
 ];
 
 // Custom descriptions for project cards (overrides the GitHub repo description)
@@ -193,6 +224,18 @@ export const projectDescriptions = [
   {
     name: "ecommerce-integrador",
     description: "A complete e-commerce platform covering the core browsing and purchasing workflow.",
+  },
+  {
+    name: "sistema-req-provas",
+    description: "A Laravel and Filament system for managing exam requests, academic records, and PDF reports.",
+  },
+  {
+    name: "payroll-loan-simulator-api",
+    description: "A Django REST API that simulates payroll loans, checks salary margins, and preserves complete payment schedules.",
+  },
+  {
+    name: "knowledge-ramp-up",
+    description: "A learning platform for following structured study tracks, logging time, and monitoring progress step by step.",
   },
 ];
 

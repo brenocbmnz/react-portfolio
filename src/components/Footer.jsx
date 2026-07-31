@@ -9,8 +9,8 @@ import SocialLinks from "./SocialLinks";
 
 // #region styled-components
 const StyledFooter = styled.footer`
-  background: ${({ theme }) => theme.name === "light" ? "#ffbfa0" : "#101414"};
-  color: ${({ theme }) => theme.name === "light" ? "#101414" : "#f4f1e8"};
+  background: var(--footer-background);
+  color: var(--footer-text);
   min-height: 5rem;
   padding: 1rem clamp(1rem, 4vw, 3rem);
 
@@ -31,7 +31,7 @@ const StyledFooter = styled.footer`
   }
 
   a {
-    color: ${({ theme }) => theme.name === "light" ? "#101414" : "#f4f1e8"};
+    color: var(--footer-text);
 
     &:hover {
       color: var(--cyan);

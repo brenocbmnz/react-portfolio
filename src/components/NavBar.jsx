@@ -109,6 +109,32 @@ const StyledDiv = styled.div`
     border-radius: 0.2rem;
   }
 
+  .command-palette-hint {
+    color: var(--muted);
+    flex: 0 0 18rem;
+    font-family: var(--mono-font);
+    font-size: 0.56rem;
+    margin-left: 1.25rem;
+    padding: 0.5rem 0;
+    opacity: 1;
+    text-align: left;
+    transition: opacity 220ms ease, visibility 0s linear 220ms;
+    visibility: visible;
+    white-space: nowrap;
+    width: 18rem;
+  }
+
+  .command-palette-hint.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .command-palette-hint {
+      transition: none;
+    }
+  }
+
   @media (max-width: 1199px) {
     .navbar-collapse {
       border-top: var(--border);
@@ -117,6 +143,12 @@ const StyledDiv = styled.div`
     .nav-link {
       padding: 0.85rem 0 !important;
       text-align: left;
+      width: auto;
+    }
+
+    .command-palette-hint {
+      flex-basis: auto;
+      margin-left: 0;
       width: auto;
     }
 
@@ -135,7 +167,14 @@ const NavBar = ({ callBack, closeDelay = 125 }) => {
   const { t } = useTranslation();
   const theme = useSelector(selectMode);
   const [isExpanded, setisExpanded] = React.useState(false);
+  const [isCommandPaletteDiscovered, setIsCommandPaletteDiscovered] = React.useState(false);
   const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    const hideHint = () => setIsCommandPaletteDiscovered(true);
+    window.addEventListener("command-palette-discovered", hideHint);
+    return () => window.removeEventListener("command-palette-discovered", hideHint);
+  }, []);
 
   return (
     <StyledDiv>
@@ -230,6 +269,12 @@ const NavBar = ({ callBack, closeDelay = 125 }) => {
                 setExpanded={setisExpanded}
                 setTheme={callBack}
               />
+              <span
+                className={`command-palette-hint${isCommandPaletteDiscovered ? " hidden" : ""}`}
+                aria-hidden={isCommandPaletteDiscovered}
+              >
+                {t("terminal.headerHint")}
+              </span>
             </Nav>
           </Navbar.Collapse>
         </Container>

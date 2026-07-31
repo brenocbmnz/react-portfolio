@@ -23,9 +23,9 @@ const StyledCard = styled.div`
   }
 
   .project-card {
-    background: var(--cyan);
-    border: 1px solid #101414;
-    color: #101414;
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    color: var(--card-text);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -72,8 +72,8 @@ const StyledCard = styled.div`
   }
 
   .project-card:hover {
-    background: color-mix(in srgb, var(--cyan) 82%, white);
-    color: #101414;
+    background: color-mix(in srgb, var(--card-background) 82%, white);
+    color: var(--card-text);
   }
 
   .project-top {
@@ -155,7 +155,7 @@ const StyledCard = styled.div`
 
     .project-card:hover .project-category {
       background: var(--yellow);
-      color: #101414;
+      color: var(--on-accent);
       transform: translateZ(24px) rotate(1deg);
     }
 

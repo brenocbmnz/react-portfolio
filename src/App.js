@@ -28,6 +28,7 @@ import { Container } from "react-bootstrap";
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
+import EasterThemeEffects from "./components/EasterThemeEffects";
 import ScrollProgress from "./components/ScrollProgress";
 // Config
 import { footerTheme, githubUsername, linkedin, navLogo } from "./config";
@@ -67,6 +68,7 @@ const App = ({
 }) => {
   const { t } = useTranslation();
   const theme = useSelector(selectMode);
+  const [easterTheme, setEasterTheme] = React.useState(null);
   const projects = useSelector(selectProjects);
   const dispatch = useDispatch();
   const { isLoading, isSuccess, isError, error } = useGetUsersQuery();
@@ -141,6 +143,7 @@ const App = ({
   // Theme
   const setThemes = React.useCallback(
     (theme) => {
+      setEasterTheme(null);
       if (theme) {
         dispatch(setMode(theme));
         setTheme(theme);
@@ -155,6 +158,16 @@ const App = ({
   React.useEffect(() => {
     setThemes();
   }, [setThemes]);
+
+  React.useEffect(() => {
+    if (easterTheme) {
+      document.documentElement.setAttribute("data-easter-theme", easterTheme);
+    } else {
+      document.documentElement.removeAttribute("data-easter-theme");
+    }
+
+    return () => document.documentElement.removeAttribute("data-easter-theme");
+  }, [easterTheme]);
 
   window
     .matchMedia("(prefers-color-scheme: dark)")
@@ -204,12 +217,15 @@ const App = ({
         <ThemeProvider theme={{ name: theme }}>
           <ScrollToTop />
           <GlobalStyles />
+          <EasterThemeEffects theme={easterTheme} />
           <ScrollProgress />
           {content}
           <CommandPalette
+            easterTheme={easterTheme}
             githubUrl={`https://github.com/${githubUsername}`}
             linkedinUrl={linkedin}
             onToggleTheme={() => setThemes(theme === "light" ? "dark" : "light")}
+            onSetEasterTheme={setEasterTheme}
           />
         </ThemeProvider>
       </HashRouter>
